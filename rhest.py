@@ -22,12 +22,15 @@ RHYME_TYPE_MAP = {
 def rhyme():
     word = request.args.get('word')
     kind = request.args.get('kind')
+    num_sylls = request.args.get('numSylls')
     method = RHYME_TYPE_MAP.get(kind, ph.get_perfect_rhymes)
     try:
-        return jsonify(method(word))
+        return jsonify(method(word, num_syllables=num_sylls))
     except KeyError:
         if word:
             return abort(404)
+    except:
+        pass
     return abort(500)
 
 
